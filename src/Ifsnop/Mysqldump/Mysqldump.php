@@ -1189,7 +1189,7 @@ class Mysqldump
         $ignore = $this->dumpSettings['insert-ignore'] ? '  IGNORE' : '';
 
         $count = 0;
-	$line = '';
+        $line = '';
         foreach ($resultSet as $row) {
             $count++;
             $vals = $this->prepareColumnValues($tableName, $row);
@@ -1210,7 +1210,7 @@ class Mysqldump
                     !$this->dumpSettings['extended-insert']) {
                 $onlyOnce = true;
                 $this->compressManager->write($line . ";".PHP_EOL);
-		$line = '';
+                $line = '';
             }
         }
         $resultSet->closeCursor();
