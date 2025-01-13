@@ -295,7 +295,7 @@ class Mysqldump
 
         $gzfile = false;
         # .gz files start with 0x1F 0x8B byte sequence
-        if(fread($handle, 2) === '\x1F\x8B') {
+        if(bin2hex(fread($handle, 2)) === '1f8b') {
           fclose($handle);
           $handle = gzopen($path , 'rb');
           $gzfile = true;
@@ -309,7 +309,11 @@ class Mysqldump
 
         $buffer = '';
         while ( !feof($handle) ) {
-            $line = fgets($handle);
+            if($gzfile) {
+              $line = trim(gzgets($handle));
+            } else {
+              $line = trim(fgets($handle));
+            }
 
             if (substr($line, 0, 2) == '--' || !$line) {
                 continue; // skip comments
